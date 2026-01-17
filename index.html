@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive GPA & CGPA Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-calculator"></i> Interactive GPA & CGPA Calculator</h1>
+            <p>Calculate your semester GPA, predict future targets, compute CGPA across multiple semesters, visualize results, and export reports.</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-container">
+            <!-- GPA Calculator Card -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-university"></i> Semester GPA Calculator</h2>
+                <div class="form-group">
+                    <label for="semester-name">Semester Name</label>
+                    <input type="text" id="semester-name" placeholder="e.g., Fall 2023" value="Semester 1">
+                </div>
+                
+                <div class="form-group">
+                    <label>Subjects & Grades</label>
+                    <div id="subjects-container">
+                        <!-- Subject rows will be added here dynamically -->
+                        <div class="subject-row">
+                            <input type="text" class="subject-name" placeholder="Subject Name" value="Mathematics">
+                            <input type="number" class="credit-hours" placeholder="Credits" min="1" max="10" value="3">
+                            <select class="grade">
+                                <option value="10">S (10.0)</option>
+                                <option value="9">A (9.0)</option>
+                                <option value="8" selected>B (8.0)</option>
+                                <option value="7">C (7.0)</option>
+                                <option value="6">D (6.0)</option>
+                                <option value="5">E (5.0)</option>
+                                <option value="0">F (0.0)</option>
+                            </select>
+                            <div class="grade-point">8.0</div>
+                            <button class="remove-subject" onclick="removeSubject(this)"><i class="fas fa-times"></i></button>
+                        </div>
+                        
+                        <div class="subject-row">
+                            <input type="text" class="subject-name" placeholder="Subject Name" value="Computer Science">
+                            <input type="number" class="credit-hours" placeholder="Credits" min="1" max="10" value="4">
+                            <select class="grade">
+                                <option value="10" selected>S (10.0)</option>
+                                <option value="9">A (9.0)</option>
+                                <option value="8">B (8.0)</option>
+                                <option value="7">C (7.0)</option>
+                                <option value="6">D (6.0)</option>
+                                <option value="5">E (5.0)</option>
+                                <option value="0">F (0.0)</option>
+                            </select>
+                            <div class="grade-point">10.0</div>
+                            <button class="remove-subject" onclick="removeSubject(this)"><i class="fas fa-times"></i></button>
+                        </div>
+                        
+                        <div class="subject-row">
+                            <input type="text" class="subject-name" placeholder="Subject Name" value="Physics">
+                            <input type="number" class="credit-hours" placeholder="Credits" min="1" max="10" value="3">
+                            <select class="grade">
+                                <option value="10">S (10.0)</option>
+                                <option value="9" selected>A (9.0)</option>
+                                <option value="8">B (8.0)</option>
+                                <option value="7">C (7.0)</option>
+                                <option value="6">D (6.0)</option>
+                                <option value="5">E (5.0)</option>
+                                <option value="0">F (0.0)</option>
+                            </select>
+                            <div class="grade-point">9.0</div>
+                            <button class="remove-subject" onclick="removeSubject(this)"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="addSubject()"><i class="fas fa-plus"></i> Add Subject</button>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn" onclick="calculateGPA()"><i class="fas fa-calculator"></i> Calculate GPA</button>
+                    <button class="btn btn-success" onclick="saveSemester()"><i class="fas fa-save"></i> Save Semester</button>
+                    <button class="btn btn-secondary" onclick="resetCalculator()"><i class="fas fa-redo"></i> Reset</button>
+                </div>
+            </div>
+            
+            <!-- CGPA Calculator Card -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-layer-group"></i> CGPA Calculator</h2>
+                <p>Calculate your Cumulative GPA across all semesters.</p>
+                
+                <div class="semester-controls">
+                    <button class="btn" onclick="addNewSemester()"><i class="fas fa-plus"></i> Add New Semester</button>
+                    <button class="btn btn-secondary" onclick="clearAllSemesters()"><i class="fas fa-trash"></i> Clear All</button>
+                </div>
+                
+                <div id="semester-list" class="semester-list">
+                    <!-- Saved semesters will appear here -->
+                </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <button class="btn btn-success" onclick="calculateCGPA()"><i class="fas fa-chart-line"></i> Calculate CGPA</button>
+                    <div id="cgpa-result" style="display: none; margin-top: 20px; padding: 15px; background-color: #e7f5ff; border-radius: 8px; border-left: 5px solid var(--primary-color);">
+                        <h4>CGPA Result</h4>
+                        <p id="cgpa-value"></p>
+                    </div>
+                </div>
+                
+                <div class="grade-scale">
+                    <h3>Grade Scale Reference (10-point System)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Grade</th>
+                                <th>Points</th>
+                                <th>Percentage</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>S</td>
+                                <td>10.0</td>
+                                <td>90-100%</td>
+                                <td>Outstanding</td>
+                            </tr>
+                            <tr>
+                                <td>A</td>
+                                <td>9.0</td>
+                                <td>80-89%</td>
+                                <td>Excellent</td>
+                            </tr>
+                            <tr>
+                                <td>B</td>
+                                <td>8.0</td>
+                                <td>70-79%</td>
+                                <td>Good</td>
+                            </tr>
+                            <tr>
+                                <td>C</td>
+                                <td>7.0</td>
+                                <td>60-69%</td>
+                                <td>Average</td>
+                            </tr>
+                            <tr>
+                                <td>D</td>
+                                <td>6.0</td>
+                                <td>50-59%</td>
+                                <td>Below Average</td>
+                            </tr>
+                            <tr>
+                                <td>E</td>
+                                <td>5.0</td>
+                                <td>40-49%</td>
+                                <td>Pass</td>
+                            </tr>
+                            <tr>
+                                <td>F</td>
+                                <td>0.0</td>
+                                <td>Below 40%</td>
+                                <td>Fail</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Display -->
+        <div class="result-container">
+            <h2><i class="fas fa-chart-bar"></i> GPA Results</h2>
+            <div class="gpa-display" id="gpa-result">0.00</div>
+            <div class="grade-text" id="grade-text">No Data</div>
+            <p id="result-details">Add subjects and grades to calculate GPA</p>
+            
+            <div class="export-options">
+                <button class="btn btn-success" onclick="exportAsPDF()"><i class="fas fa-file-pdf"></i> Export as PDF</button>
+                <button class="btn" onclick="shareResults()"><i class="fas fa-share-alt"></i> Share Results</button>
+                <button class="btn btn-warning" onclick="printResults()"><i class="fas fa-print"></i> Print Results</button>
+            </div>
+        </div>
+        
+        <!-- Charts and Target GPA -->
+        <div class="main-container">
+            <!-- GPA Chart -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-chart-pie"></i> GPA Visualization</h2>
+                <div class="chart-container">
+                    <canvas id="gpaChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Target GPA Calculator -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-bullseye"></i> Target GPA Calculator</h2>
+                <p>Calculate the grades you need in future semesters to reach your target CGPA.</p>
+                
+                <div class="target-form">
+                    <div class="form-group">
+                        <label for="current-cgpa">Current CGPA (out of 10)</label>
+                        <input type="number" id="current-cgpa" step="0.01" min="0" max="10" value="8.5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="completed-credits">Completed Credits</label>
+                        <input type="number" id="completed-credits" min="0" value="40">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="target-cgpa">Target CGPA (out of 10)</label>
+                        <input type="number" id="target-cgpa" step="0.01" min="0" max="10" value="9.0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="future-credits">Future Credits</label>
+                        <input type="number" id="future-credits" min="1" value="15">
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="calculateTargetGPA()"><i class="fas fa-calculator"></i> Calculate Required GPA</button>
+                
+                <div id="target-result" class="target-result" style="display: none;">
+                    <!-- Target result will be displayed here -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Interactive GPA & CGPA Calculator | Developed using HTML, CSS, and JavaScript | Works offline without any backend server</p>
+            <p>© 2023 Academic Tools Project | All calculations are performed client-side</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
