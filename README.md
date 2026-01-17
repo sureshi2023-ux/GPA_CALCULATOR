@@ -13,7 +13,7 @@ A beautiful, colorful, and elegant GPA calculator application with a modern desi
 - 📊 **Detailed Statistics** - Total credits, courses, and grade distribution
 - 🔔 **Toast Notifications** - Beautiful feedback for user actions
 - 🎭 **Smooth Animations** - Elegant transitions and hover effects
-- 🌈 **Rainbow Gradients** - Colorful visual elements throughout
+
 
 ## 🚀 How to Use
 
@@ -69,9 +69,7 @@ The application uses a vibrant color palette:
 
 Feel free to fork this project and submit pull requests for any improvements.
 
-## 📄 License
 
-This project is open source and available under the MIT License.
 
 ## ✨ Credits
 
@@ -80,6 +78,3 @@ This project is open source and available under the MIT License.
 - Design: Custom gradient-based design
 - Development: Built with pure HTML, CSS, and JavaScript
 
----
-
-Made with ❤️ for students everywhere. Calculate your GPA in style!
