@@ -535,7 +535,7 @@ function calculateTargetGPA() {
     } else if (requiredGPA < 0) {
         targetResult.innerHTML = `
             <h4><i class="fas fa-check-circle"></i> Target Already Achieved</h4>
-            <p>You have already achieved a CGPA higher than your target! Your current CGPA of ${currentCGPA} is already above ${targetCGPA}.</p>
+            <p>You have already achieved a CGPA higher than your target!## Your current CGPA of ${currentCGPA} is already above ${targetCGPA}.</p>
         `;
     } else {
         let difficulty = "";
